@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql
+    ports:
+      - "3310:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: control1234
+      MYSQL_DATABASE: appdb
+      MYSQL_USER: nodeUser
+      MYSQL_PASSWORD: nodePasword
+    volumes:
+      - ./data:/var/lib/mysql
+
+  node:
+    image: node
+    ports:
+      - "8080:3000"
+    depends_on:
+      - mysql
+    environment:
+      HOST: mysql
+      USER: nodeUser
+      DB_PASSWORD: nodePasword
+      DB_NAME: appdb
+    volumes:
+      - ./www:/node
